@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.imagesapp.adapters.ImagesAdapter
 import com.example.imagesapp.databinding.ActivityMainBinding
+import com.example.imagesapp.model.MyImage
 import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity() {
@@ -21,8 +22,13 @@ class MainActivity : AppCompatActivity() {
 
 
     private lateinit var binding : ActivityMainBinding
-    val images = mutableListOf<Uri>()
-    private val imagesAdapter = ImagesAdapter(images)
+    val images = mutableListOf<MyImage>()
+    val selectedImages = mutableListOf<MyImage>()
+    private val selectedImagesAdapter = ImagesAdapter(selectedImages){
+    }
+    private val imagesAdapter = ImagesAdapter(images){
+        onSelectedImage(it)
+    }
     val requestlauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){
         if (it){
             loadImages()
@@ -37,15 +43,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         requestpermission()
-        binding.floatingBtn.setOnClickListener {
-            Toast.makeText(this, "Floating button", Toast.LENGTH_SHORT).show()
-        }
         initRecyclerView()
     }
     fun initRecyclerView(){
         //binding.recyclerView.layoutManager = GridLayoutManager(this, 4)
         binding.recyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         binding.recyclerView.adapter = imagesAdapter
+        // imagenes seleccionadas
+        binding.selectedImages.layoutManager = GridLayoutManager(this,4)
+        binding.selectedImages.adapter = selectedImagesAdapter
     }
    fun requestpermission(){
        when{
@@ -62,6 +68,10 @@ class MainActivity : AppCompatActivity() {
            }
        }
    }
+    fun onSelectedImage(image:MyImage){
+        selectedImages.add(MyImage(image.uri,true))
+        selectedImagesAdapter.notifyItemInserted(selectedImages.size-1)
+    }
     fun loadImages(){
 
         val resolver = contentResolver
@@ -79,7 +89,7 @@ class MainActivity : AppCompatActivity() {
                do {
                    val id = cursor.getLong(idColumn)
                    val uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,id)
-                   images.add(uri)
+                   images.add(MyImage(uri,false))
                    imagesAdapter.notifyItemInserted(images.size-1)
 
                }while(cursor.moveToNext())

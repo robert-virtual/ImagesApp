@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/rober/AndroidStudioProjects/ImagesApp/app/src/main/res/drawable/dark_bg.xml" value="0.1935" />
+        <entry key="..\:/Users/rober/AndroidStudioProjects/ImagesApp/app/src/main/res/drawable/ic_close.xml" value="0.1935" />
         <entry key="..\:/Users/rober/AndroidStudioProjects/ImagesApp/app/src/main/res/drawable/rounded_border.xml" value="0.1935" />
         <entry key="..\:/Users/rober/AndroidStudioProjects/ImagesApp/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/rober/AndroidStudioProjects/ImagesApp/app/src/main/res/layout/image_item.xml" value="0.25416666666666665" />
