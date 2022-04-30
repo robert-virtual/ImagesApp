@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         requestpermission()
         binding.floatingBtn.setOnClickListener {
             Toast.makeText(this, "Floating button", Toast.LENGTH_SHORT).show()
@@ -44,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         initRecyclerView()
     }
     fun initRecyclerView(){
-        binding.recyclerView.layoutManager = GridLayoutManager(this, 6)
+        binding.recyclerView.layoutManager = GridLayoutManager(this, 4)
         //binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = imagesAdapter
     }
@@ -67,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
         val resolver = contentResolver
         val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        val cursor  = resolver.query(uri,null,null,null,)
+        val cursor  = resolver.query(uri,null,null,null,"${MediaStore.Images.Media.DATE_TAKEN} DESC")
         when{
             cursor == null ->{
                 Toast.makeText(this, "Hubo un Error", Toast.LENGTH_SHORT).show()
@@ -77,13 +76,14 @@ class MainActivity : AppCompatActivity() {
             }
             else ->{
                 val idColumn = cursor.getColumnIndex(MediaStore.Images.Media._ID)
-                for (i in 0..100){
-                    val id = cursor.getLong(idColumn)
-                    val uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,id)
-                    images.add(uri)
-                    imagesAdapter.notifyItemInserted(images.size-1)
-                    cursor.moveToNext()
-                }
+               do {
+                   val id = cursor.getLong(idColumn)
+                   val uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,id)
+                   images.add(uri)
+                   imagesAdapter.notifyItemInserted(images.size-1)
+
+               }while(cursor.moveToNext())
+
 
                 Toast.makeText(this, "${cursor.count} imagenes encontradas", Toast.LENGTH_SHORT).show()
             }
