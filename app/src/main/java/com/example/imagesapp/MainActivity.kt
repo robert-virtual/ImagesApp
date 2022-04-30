@@ -43,8 +43,8 @@ class MainActivity : AppCompatActivity() {
         initRecyclerView()
     }
     fun initRecyclerView(){
-        binding.recyclerView.layoutManager = GridLayoutManager(this, 4)
-        //binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        //binding.recyclerView.layoutManager = GridLayoutManager(this, 4)
+        binding.recyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         binding.recyclerView.adapter = imagesAdapter
     }
    fun requestpermission(){
