@@ -25,7 +25,9 @@ class MainActivity : AppCompatActivity() {
     val images = mutableListOf<MyImage>()
     val selectedImages = mutableListOf<MyImage>()
     private val selectedImagesAdapter = ImagesAdapter(selectedImages){
+       removeImage(it)
     }
+
     private val imagesAdapter = ImagesAdapter(images){
         onSelectedImage(it)
     }
@@ -50,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         binding.recyclerView.adapter = imagesAdapter
         // imagenes seleccionadas
-        binding.selectedImages.layoutManager = GridLayoutManager(this,4)
+        binding.selectedImages.layoutManager = GridLayoutManager(this,2)
         binding.selectedImages.adapter = selectedImagesAdapter
     }
    fun requestpermission(){
@@ -68,6 +70,12 @@ class MainActivity : AppCompatActivity() {
            }
        }
    }
+    fun removeImage(image:MyImage){
+        val itemIdx = selectedImages.indexOf(image)
+       selectedImages.remove(image)
+        selectedImagesAdapter.notifyItemRemoved(itemIdx)
+    }
+
     fun onSelectedImage(image:MyImage){
         selectedImages.add(MyImage(image.uri,true))
         selectedImagesAdapter.notifyItemInserted(selectedImages.size-1)
