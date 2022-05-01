@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.imagesapp.adapters.ImagesAdapter
 import com.example.imagesapp.databinding.ActivityMainBinding
 import com.example.imagesapp.model.MyImage
+import com.google.android.material.snackbar.Snackbar
 import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity() {
@@ -77,6 +78,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onSelectedImage(image:MyImage){
+        if (selectedImages.size == 5){
+            Snackbar.make(binding.recyclerView,"Solo puedes agregar 5 imagenes",Snackbar.LENGTH_SHORT)
+                .show()
+
+           return
+        }
         selectedImages.add(MyImage(image.uri,true))
         selectedImagesAdapter.notifyItemInserted(selectedImages.size-1)
     }

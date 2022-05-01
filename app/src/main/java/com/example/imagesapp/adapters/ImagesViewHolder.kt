@@ -14,7 +14,6 @@ import com.example.imagesapp.model.MyImage
 class ImagesViewHolder(view:View):RecyclerView.ViewHolder(view) {
     val binding = ImageItemBinding.bind(view)
     fun render(image:MyImage,onSelectedImage:(MyImage)->Unit){
-       //binding.img.setImageURI(uri)
         val thumbnail: Bitmap =
             binding.imgItem.context.contentResolver.loadThumbnail(
                 image.uri, Size(640, 480), null)
